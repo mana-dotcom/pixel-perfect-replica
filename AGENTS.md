@@ -28,3 +28,9 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Application conventions
+- Keep registration and capacity logic in the pure `src/lib/trips.ts` module with adjacent tests, so all interfaces enforce the same limits.
+- Persist sample trips and registrations only in browser localStorage after hydration, as explicitly requested; these counts are device-local and are not shared bookings.
+- Keep the scroll-video experience and trip catalog in focused components under `src/components/travel`, with the requested experience served at `/`.
+- Use CSS semantic design tokens for the travel identity, and Lovable asset pointers for the uploaded video and destination media, to keep styling consistent and binary media outside the repository.
