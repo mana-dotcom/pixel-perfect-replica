@@ -17,13 +17,13 @@ export function scrollToTrips() {
 export function VideoHero() {
   const container = useRef<HTMLDivElement>(null);
   const video = useRef<HTMLVideoElement>(null);
-  const ambient = useRef<HTMLVideoElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
   const [sceneIndex, setSceneIndex] = useState(0);
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     const clip = video.current;
-    const backdrop = ambient.current;
+    const backdrop = bgRef.current;
     const element = container.current;
     if (!clip || !backdrop || !element) return;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -31,9 +31,9 @@ export function VideoHero() {
     let frame = 0;
     let target = 0;
     let rendered = 0;
-    let lastBackdrop = 0;
     let mobileFallback = false;
     let seekStarted = 0;
+
     const update = () => {
       const bounds = element.getBoundingClientRect();
       const viewport = element.firstElementChild?.getBoundingClientRect().height ?? window.innerHeight;
@@ -41,9 +41,11 @@ export function VideoHero() {
       target = progress;
       if (!mobileFallback) setSceneIndex(progress < .35 ? 0 : progress < .7 ? 1 : 2);
     };
+
     const timeUpdate = () => {
       if (mobileFallback) setSceneIndex(clip.currentTime < 3 ? 0 : clip.currentTime < 5.6 ? 1 : 2);
     };
+
     const tick = () => {
       rendered = reduced ? target : rendered + (target - rendered) * .15;
       if (Number.isFinite(clip.duration) && !mobileFallback) {
@@ -56,16 +58,14 @@ export function VideoHero() {
           mobileFallback = true;
           clip.loop = true;
           void clip.play().catch(() => { mobileFallback = false; });
-          backdrop.loop = true;
-          void backdrop.play().catch(() => {});
-        }
-        if (!backdrop.seeking && Math.abs(backdrop.currentTime - clip.currentTime) > .13 && performance.now() - lastBackdrop > 100) {
-          backdrop.currentTime = clip.currentTime;
-          lastBackdrop = performance.now();
         }
       }
+      const scale = 1 + rendered * 0.14;
+      const translateY = rendered * 9;
+      backdrop.style.transform = `scale(${scale}) translateY(${translateY}%)`;
       frame = requestAnimationFrame(tick);
     };
+
     update();
     window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);
@@ -77,7 +77,6 @@ export function VideoHero() {
       window.removeEventListener('resize', update);
       clip.removeEventListener('timeupdate', timeUpdate);
       clip.pause();
-      backdrop.pause();
     };
   }, []);
 
@@ -87,8 +86,14 @@ export function VideoHero() {
   return (
     <section className="hero-scroll" ref={container} aria-label="Découvrir Alger">
       <div className="hero-viewport">
-        <video className="hero-ambient" ref={ambient} src={videoAsset.url} poster={poster.url} muted playsInline preload="auto" aria-hidden="true" />
-        <div className="hero-veil" />
+        <div className="hero-background" ref={bgRef}>
+          {failed ? (
+            <img className="hero-background-media" src={poster.url} alt="Le Jardin d’Essai à Alger" />
+          ) : (
+            <video ref={video} className="hero-background-media" src={videoAsset.url} poster={poster.url} muted playsInline preload="auto" onError={() => setFailed(true)} aria-label="Voyage aérien à travers les monuments d’Alger" />
+          )}
+        </div>
+        <div className="hero-scrim" />
         <div className="hero-layout">
           <div className="hero-copy">
             <div className="eyebrow">De la Tunisie à l’Algérie</div>
@@ -97,12 +102,14 @@ export function VideoHero() {
             <Button variant="editorial" className="hero-cta" onClick={scrollToTrips}>Découvrir nos voyages <ArrowUpRight /></Button>
             <div className="hero-footnote"><Plane size={12} /> Départs de Tunis <span>·</span> Petits groupes <span>·</span> Grandes rencontres</div>
           </div>
-          <div className="hero-frame">
-            {failed ? <img className="h-full w-full object-contain" src={poster.url} alt="Le Jardin d’Essai à Alger" /> : <video ref={video} src={videoAsset.url} poster={poster.url} muted playsInline preload="auto" onError={() => setFailed(true)} aria-label="Voyage aérien à travers les monuments d’Alger" />}
-            <div className="frame-corner"><Sparkles size={10} /> Un regard sur Dzayer</div>
-            <div className="scene-caption" key={sceneIndex} aria-live="polite">
-              <div className="scene-label"><MapPin size={10} /> {scene.label}</div>
-              <h2>{scene.title}</h2><p>{scene.subtitle}</p>
+          <div className="hero-scene" key={sceneIndex} aria-live="polite">
+            <div className="hero-scene-frame">
+              <div className="frame-corner"><Sparkles size={10} /> Un regard sur Dzayer</div>
+              <div className="scene-caption">
+                <div className="scene-label"><MapPin size={10} /> {scene.label}</div>
+                <h2>{scene.title}</h2>
+                <p>{scene.subtitle}</p>
+              </div>
             </div>
           </div>
         </div>
