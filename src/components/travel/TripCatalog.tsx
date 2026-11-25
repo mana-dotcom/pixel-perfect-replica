@@ -35,7 +35,7 @@ export function TripCatalog({ state, onRegister }: { state: TravelState; onRegis
         <div className="collection-count"><Route size={14} /> 04 circuits soigneusement choisis</div>
       </div>
       <div className="filters" aria-label="Catégories de voyages">{filters.map((item) => <Button key={item} className="filter-button" variant={filter === item ? 'default' : 'outline'} aria-pressed={filter === item} onClick={() => setFilter(item)}>{item}</Button>)}</div>
-      <div className="trip-grid">{state.trips.filter((trip) => filter === filters[0] || trip.category === filter).map((trip) => {
+      <div className="trip-grid">{state.trips.filter((trip) => !trip.completed && (filter === filters[0] || trip.category === filter)).map((trip) => {
         const remaining = remainingPlaces(trip);
         return <article className="trip-card" key={trip.id}>
           <div className="trip-image"><img src={images[trip.id]} alt={trip.region} loading="lazy" onError={handleImageError} /><span className="trip-category"><MapPin size={10} /> {trip.category}</span><span className="trip-duration">{trip.duration}</span></div>
