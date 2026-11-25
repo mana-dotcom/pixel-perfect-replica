@@ -73,33 +73,31 @@
 .nav-links { display: flex; align-items: center; gap: 30px; }
 .nav-link { font-size: 12px; }
 .nav-cta { height: 41px; border-radius: 4px; font-size: 11px; padding: 0 19px; }
-.hero-scroll { height: 350vh; position: relative; }
-.hero-viewport { position: sticky; top: 0; height: calc(100svh - 120px); min-height: 600px; max-height: 1100px; overflow: hidden; background: var(--image-ink); color: var(--primary-foreground); }
+.hero-scroll { height: 300vh; position: relative; }
+.hero-viewport { position: sticky; top: 0; height: 100svh; width: 100%; overflow: hidden; background: var(--image-ink); color: var(--primary-foreground); }
 .hero-background { position: absolute; inset: -8%; width: 116%; height: 116%; will-change: transform; transform-origin: center; }
 .hero-background-media { width: 100%; height: 100%; object-fit: cover; }
-.hero-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, oklch(0.19 0.012 59 / .55) 0%, oklch(0.19 0.012 59 / .32) 45%, oklch(0.19 0.012 59 / .12) 100%); }
-.hero-layout { position: relative; height: 100%; max-width: 1500px; margin: auto; padding: 44px 7% 86px; display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: 5%; }
-.hero-copy { position: relative; z-index: 3; }
+.hero-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, oklch(0.19 0.012 59 / .55) 0%, oklch(0.19 0.012 59 / .25) 40%, oklch(0.14 0.03 40 / .6) 100%); }
+.hero-overlay { position: absolute; inset: 0; z-index: 2; }
 .eyebrow { display: flex; align-items: center; gap: 12px; text-transform: uppercase; font-size: 10px; font-weight: 500; color: var(--primary-foreground); text-shadow: 0 1px 12px oklch(0.19 0.012 59 / .6); }
 .eyebrow::before { content: ''; width: 25px; height: 1px; background: currentColor; }
-.hero-title { font-size: 92px; font-weight: 500; line-height: .92; margin: 27px 0 23px; color: var(--primary-foreground); text-shadow: 0 2px 24px oklch(0.19 0.012 59 / .55); }
+.hero-copy { position: absolute; top: 15%; left: 7%; right: 7%; max-width: 620px; will-change: opacity, transform; }
+.hero-title { font-size: 96px; font-weight: 500; line-height: .92; margin: 27px 0 23px; color: var(--primary-foreground); text-shadow: 0 2px 24px oklch(0.19 0.012 59 / .55); }
 .hero-title em { font-weight: 500; }
-.hero-description { max-width: 300px; font-size: 13px; line-height: 1.9; opacity: .95; margin-bottom: 29px; color: var(--primary-foreground); text-shadow: 0 1px 14px oklch(0.19 0.012 59 / .5); }
+.hero-description { max-width: 340px; font-size: 13px; line-height: 1.9; opacity: .95; margin-bottom: 29px; color: var(--primary-foreground); text-shadow: 0 1px 14px oklch(0.19 0.012 59 / .5); }
 .hero-cta { border-radius: 4px; height: 45px; font-size: 11px; padding: 0 21px; }
 .hero-footnote { display: flex; align-items: center; gap: 9px; font-size: 9px; margin-top: 22px; opacity: .9; color: var(--primary-foreground); text-shadow: 0 1px 10px oklch(0.19 0.012 59 / .5); }
-.hero-scene { height: min(69svh, 690px); max-width: 390px; justify-self: center; align-self: center; position: relative; z-index: 2; }
-.hero-scene-frame { position: relative; height: 100%; aspect-ratio: 9/16; border: 5px solid color-mix(in oklch, var(--background) 65%, transparent); border-radius: 5px; box-shadow: var(--frame-shadow); background: oklch(0.19 0.012 59 / .18); backdrop-filter: blur(2px); animation: caption-in .6s ease both; }
-.frame-corner { position: absolute; top: 16px; left: 15px; background: color-mix(in oklch, var(--image-ink) 55%, transparent); padding: 6px 9px; display: flex; align-items: center; gap: 6px; border-radius: 2px; font-size: 8px; color: var(--primary-foreground); }
-.scene-caption { position: absolute; bottom: 25px; left: -38px; width: calc(100% + 12px); padding: 16px 18px; background: var(--background); color: var(--foreground); border-left: 3px solid var(--accent); box-shadow: var(--frame-shadow); }
-.scene-label { color: var(--accent); text-transform: uppercase; font-size: 8px; display: flex; align-items: center; gap: 6px; }
-.scene-caption h2 { font-size: 23px; font-weight: 600; margin: 6px 0; line-height: 1.1; }
-.scene-caption p { font-size: 9px; color: var(--muted-foreground); margin: 0; }
-.hero-bottom { position: absolute; bottom: 24px; left: 7%; right: 7%; display: flex; justify-content: space-between; align-items: center; z-index: 3; color: var(--primary-foreground); }
+.hero-scene-title { position: absolute; bottom: 18%; left: 7%; right: 7%; will-change: opacity, transform; }
+.hero-scene-title .scene-label { color: var(--accent); text-transform: uppercase; font-size: 11px; display: flex; align-items: center; gap: 8px; }
+.hero-scene-title h2 { font-size: clamp(40px, 7vw, 88px); font-weight: 500; line-height: 1; margin: 14px 0 10px; color: var(--primary-foreground); text-shadow: 0 2px 30px oklch(0.19 0.012 59 / .6); }
+.hero-scene-title p { font-size: 15px; opacity: .85; color: var(--primary-foreground); text-shadow: 0 1px 12px oklch(0.19 0.012 59 / .5); }
+.hero-bottom { position: absolute; bottom: 26px; left: 7%; right: 7%; display: flex; justify-content: space-between; align-items: center; z-index: 3; color: var(--primary-foreground); }
 .scroll-prompt { display: flex; align-items: center; gap: 10px; font-size: 8px; text-transform: uppercase; color: var(--primary-foreground); }
 .scroll-prompt svg { animation: float-down 2s ease-in-out infinite; }
 .scene-nav { display: flex; align-items: center; gap: 12px; font-size: 9px; color: var(--primary-foreground); }
 .scene-tick { width: 29px; height: 2px; background: color-mix(in oklch, var(--background) 35%, transparent); }
 .scene-tick.active { background: var(--background); }
+.trip-image.image-fallback { background: linear-gradient(135deg, var(--accent), var(--destructive) 55%, var(--primary)); }
 .journey-strip { position: relative; z-index: 2; background: var(--background); display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 25px 7%; border-bottom: 1px solid var(--border); }
 .journey-item { display: flex; align-items: center; gap: 12px; font-size: 10px; }
 .journey-item svg { width: 19px; color: var(--accent); }
@@ -175,10 +173,9 @@
 @media (max-width: 900px) {
   .site-nav { padding: 0 5%; gap: 15px; }
   .nav-links { gap: 13px; }
-  .hero-layout { padding-left: 6%; padding-right: 6%; gap: 4%; }
+  .hero-copy { left: 6%; right: 6%; }
   .hero-title { font-size: 73px; }
-  .hero-scene { height: min(62svh, 600px); }
-  .scene-caption { left: -20px; }
+  .hero-scene-title { bottom: 20%; }
   .trip-image { height: 215px; }
   .trip-body { padding: 18px; }
   .trip-title { font-size: 26px; }
@@ -193,9 +190,7 @@
   .nav-links { gap: 5px; }
   .nav-links .nav-link { display: none; }
   .nav-cta { font-size: 9px; padding: 0 11px; height: 36px; }
-  .hero-viewport { height: calc(100svh - 110px); min-height: 630px; max-height: 950px; }
-  .hero-layout { grid-template-columns: 1fr; gap: 15px; padding: 31px 25px 78px; align-content: start; }
-  .hero-copy { text-align: center; }
+  .hero-copy { left: 25px; right: 25px; top: 13%; text-align: center; }
   .eyebrow { font-size: 8px; justify-content: center; }
   .hero-title { font-size: 56px; line-height: .95; margin: 15px 0 12px; }
   .hero-title br { display: none; }
@@ -203,11 +198,9 @@
   .hero-description { font-size: 10px; margin: 0 auto 16px; line-height: 1.7; max-width: 280px; }
   .hero-cta { height: 37px; font-size: 9px; padding: 0 16px; }
   .hero-footnote { display: none; }
-  .hero-scene { height: min(39svh, 400px); max-width: 240px; }
-  .hero-scene-frame { border-width: 3px; }
-  .scene-caption { bottom: 12px; left: -35px; width: calc(100% + 70px); padding: 12px 14px; }
-  .scene-caption h2 { font-size: 20px; }
-  .scene-caption p { font-size: 8px; }
+  .hero-scene-title { bottom: 22%; left: 25px; right: 25px; text-align: center; }
+  .hero-scene-title h2 { font-size: 38px; }
+  .hero-scene-title p { font-size: 11px; }
   .hero-bottom { left: 25px; right: 25px; bottom: 20px; }
   .scroll-prompt { font-size: 7px; gap: 7px; }
   .scene-nav { gap: 7px; }
