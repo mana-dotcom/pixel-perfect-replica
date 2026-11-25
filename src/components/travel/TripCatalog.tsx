@@ -1,14 +1,21 @@
-import { useState } from 'react';
+import { useState, type SyntheticEvent } from 'react';
 import { ArrowUpRight, CalendarDays, Check, Hotel, MapPin, Plane, Route, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { remainingPlaces, type Registration, type Trip, type TravelState } from '@/lib/trips';
-import alger from '@/assets/alger.jpg.asset.json';
-import constantine from '@/assets/constantine.jpg.asset.json';
-import oran from '@/assets/oran.jpg.asset.json';
-import djanet from '@/assets/djanet.jpg.asset.json';
 
-const images: Record<string, string> = { alger: alger.url, constantine: constantine.url, oran: oran.url, djanet: djanet.url };
+const images: Record<string, string> = {
+  alger: '/images/alger.jpg',
+  constantine: '/images/constantine.jpg',
+  oran: '/images/oran.jpg',
+  djanet: '/images/djanet.jpg',
+};
+
+const handleImageError = (event: SyntheticEvent<HTMLImageElement>) => {
+  const img = event.currentTarget;
+  img.style.display = 'none';
+  img.parentElement?.classList.add('image-fallback');
+};
 const filters = ['Tous les voyages', 'Culture & patrimoine', 'Évasion méditerranéenne', 'Nature & aventure'];
 const amount = (value: number) => new Intl.NumberFormat('fr-TN').format(value);
 
@@ -31,7 +38,7 @@ export function TripCatalog({ state, onRegister }: { state: TravelState; onRegis
       <div className="trip-grid">{state.trips.filter((trip) => filter === filters[0] || trip.category === filter).map((trip) => {
         const remaining = remainingPlaces(trip);
         return <article className="trip-card" key={trip.id}>
-          <div className="trip-image"><img src={images[trip.id]} alt={trip.region} loading="lazy" /><span className="trip-category"><MapPin size={10} /> {trip.category}</span><span className="trip-duration">{trip.duration}</span></div>
+          <div className="trip-image"><img src={images[trip.id]} alt={trip.region} loading="lazy" onError={handleImageError} /><span className="trip-category"><MapPin size={10} /> {trip.category}</span><span className="trip-duration">{trip.duration}</span></div>
           <div className="trip-body">
             <div className="trip-region"><MapPin size={10} /> {trip.region}</div><h3 className="trip-title">{trip.title}</h3>
             <div className="trip-meta"><span><Plane size={12} /> Départ de Tunis</span><span><CalendarDays size={12} /> {trip.date}</span></div>
